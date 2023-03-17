@@ -31,7 +31,7 @@ public class DespesaRequest {
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     public Despesa toModel() throws ParseException {
-        return new Despesa(UUID.randomUUID().toString(), descricao, valor, this.obterCategoria(), this.simpleDateFormat.parse(data));
+        return new Despesa(descricao, valor, this.obterCategoria(), this.simpleDateFormat.parse(data));
     }
 
     public Despesa toModel(String id) throws ParseException {

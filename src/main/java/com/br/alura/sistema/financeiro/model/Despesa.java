@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity(name = "despesas")
 public class Despesa {
@@ -21,6 +22,14 @@ public class Despesa {
     private Date data;
 
     public Despesa(){}
+
+    public Despesa(String descricao, BigDecimal valor, String categoria, Date data) {
+        this.id = UUID.randomUUID().toString();
+        this.descricao = descricao;
+        this.valor = valor;
+        this.categoria = categoria;
+        this.data = data;
+    }
 
     public Despesa(String id, String descricao, BigDecimal valor, String categoria, Date data) {
         this.id = id;
