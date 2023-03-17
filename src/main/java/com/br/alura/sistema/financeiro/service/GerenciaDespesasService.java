@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -23,7 +24,11 @@ public class GerenciaDespesasService {
         return despesaRepository.save(despesa);
     }
 
-    public List<DespesaResponse> listarDespesas() {
+    public List<DespesaResponse> listarDespesas(String descricao) {
+        if (Objects.nonNull(descricao)) {
+            return despesaRepository.findByDescricao(descricao).stream().map(DespesaResponse::new).toList();
+        }
+
         List<Despesa> despesas = despesaRepository.findAll();
 
         return despesas.stream().map(DespesaResponse::new).toList();

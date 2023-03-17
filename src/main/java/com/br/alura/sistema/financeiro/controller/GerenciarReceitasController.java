@@ -28,8 +28,8 @@ public class GerenciarReceitasController {
     }
 
     @GetMapping
-    public ResponseEntity<?> listarReceitas() {
-        List<ReceitaResponse> receitas = gerenciaReceitasService.listarReceitas();
+    public ResponseEntity<?> listarReceitas(@RequestParam(required = false) String descricao) {
+        List<ReceitaResponse> receitas = gerenciaReceitasService.listarReceitas(descricao);
 
         return ResponseEntity.ok(receitas);
     }

@@ -24,7 +24,11 @@ public class GerenciaReceitasService {
         return receitaRepository.save(receita);
     }
 
-    public List<ReceitaResponse> listarReceitas() {
+    public List<ReceitaResponse> listarReceitas(String descricao) {
+        if (descricao != null) {
+            return receitaRepository.findByDescricao(descricao).stream().map(ReceitaResponse::new).toList();
+        }
+
         List<Receita> receitas = receitaRepository.findAll();
 
         return receitas.stream().map(ReceitaResponse::new).toList();

@@ -27,8 +27,8 @@ public class GerenciarDespesasController {
     }
 
     @GetMapping
-    public ResponseEntity<?> listarDespesas() {
-        List<DespesaResponse> despesas = gerenciaDespesasService.listarDespesas();
+    public ResponseEntity<?> listarDespesas(@RequestParam(required = false) String descricao) {
+        List<DespesaResponse> despesas = gerenciaDespesasService.listarDespesas(descricao);
 
         return ResponseEntity.ok(despesas);
     }
