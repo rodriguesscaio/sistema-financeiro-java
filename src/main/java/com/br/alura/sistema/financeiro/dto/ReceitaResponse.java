@@ -21,4 +21,8 @@ public class ReceitaResponse {
         this.valor = receita.getValor();
         this.data = simpleDateFormat.format(receita.getData());
     }
+
+    public BigDecimal getValor() {
+        return valor;
+    }
 }

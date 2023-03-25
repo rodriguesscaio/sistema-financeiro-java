@@ -24,4 +24,8 @@ public class DespesaResponse {
         this.categoria = despesa.getCategoria();
         this.data = simpleDateFormat.format(despesa.getData());
     }
+
+    public BigDecimal getValor() {
+        return valor;
+    }
 }
