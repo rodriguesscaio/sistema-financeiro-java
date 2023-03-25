@@ -5,12 +5,17 @@ import com.br.alura.sistema.financeiro.exception.ReceitaDuplicadaException;
 import com.br.alura.sistema.financeiro.exception.ReceitaNaoEncontradaException;
 import com.br.alura.sistema.financeiro.model.Receita;
 import com.br.alura.sistema.financeiro.repository.ReceitaRepository;
+import com.br.alura.sistema.financeiro.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 public class GerenciaReceitasService {
@@ -50,6 +55,15 @@ public class GerenciaReceitasService {
         Receita receita = this.buscarReceitaPorId(id);
 
         receitaRepository.deleteById(receita.getId());
+    }
+
+    public List<ReceitaResponse> listarReceitasPorMes(Integer ano, Integer mes) {
+        return receitaRepository.findAll().stream().filter(r -> {
+            LocalDate data = DateUtils.convertToLocalDate(r.getData());
+
+            return data.getYear() == ano && data.getMonthValue() == mes;
+
+        }).map(ReceitaResponse::new).toList();
     }
 
     private void verificaDuplicidadeDeReceitaNoMesmoMes(Receita receita) {

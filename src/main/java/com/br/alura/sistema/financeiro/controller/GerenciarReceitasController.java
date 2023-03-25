@@ -54,4 +54,12 @@ public class GerenciarReceitasController {
 
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("{ano}/{mes}")
+    public ResponseEntity<?> listarReceitasPorMes(@PathVariable Integer ano, @PathVariable Integer mes) {
+
+        List<ReceitaResponse> receitaResponses = gerenciaReceitasService.listarReceitasPorMes(ano, mes);
+
+        return ResponseEntity.ok(receitaResponses);
+    }
 }
