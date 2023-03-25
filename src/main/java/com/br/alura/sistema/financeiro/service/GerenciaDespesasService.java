@@ -5,9 +5,11 @@ import com.br.alura.sistema.financeiro.exception.DespesaDuplicadaException;
 import com.br.alura.sistema.financeiro.exception.DespesaNaoEncontradaException;
 import com.br.alura.sistema.financeiro.model.Despesa;
 import com.br.alura.sistema.financeiro.repository.DespesaRepository;
+import com.br.alura.sistema.financeiro.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -32,6 +34,14 @@ public class GerenciaDespesasService {
         List<Despesa> despesas = despesaRepository.findAll();
 
         return despesas.stream().map(DespesaResponse::new).toList();
+    }
+
+    public List<DespesaResponse> listarDespesasPorMes(Integer ano, Integer mes) {
+        return despesaRepository.findAll().stream().filter(d -> {
+            LocalDate data = DateUtils.convertToLocalDate(d.getData());
+
+            return data.getYear() == ano && data.getMonthValue() == mes;
+        }).map(DespesaResponse::new).toList();
     }
 
     public DespesaResponse detalheDespesa(String id) {

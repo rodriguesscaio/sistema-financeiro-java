@@ -53,4 +53,11 @@ public class GerenciarDespesasController {
 
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/{ano}/{mes}")
+    public ResponseEntity<?> listarDespesasPorMes(@PathVariable Integer ano, @PathVariable Integer mes){
+        List<DespesaResponse> despesaResponses = gerenciaDespesasService.listarDespesasPorMes(ano, mes);
+
+        return ResponseEntity.ok(despesaResponses);
+    }
 }
