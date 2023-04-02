@@ -26,6 +26,13 @@ public class DespesaRequest {
     @JsonProperty
     private String categoria;
 
+    public DespesaRequest(String descricao, BigDecimal valor, String data, String categoria) {
+        this.descricao = descricao;
+        this.valor = valor;
+        this.data = data;
+        this.categoria = categoria;
+    }
+
     private List<String> categorias = List.of("Alimentação", "Saúde", "Moradia", "Transporte", "Educação", "Lazer", "Imprevistos");
 
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
