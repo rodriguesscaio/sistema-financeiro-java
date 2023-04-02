@@ -28,4 +28,8 @@ public class DespesaResponse {
     public BigDecimal getValor() {
         return valor;
     }
+
+    public String getCategoria() {
+        return categoria;
+    }
 }

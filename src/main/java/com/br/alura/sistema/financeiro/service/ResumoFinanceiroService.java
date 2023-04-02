@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ResumoFinanceiroService {
@@ -19,21 +21,18 @@ public class ResumoFinanceiroService {
     private GerenciaDespesasService gerenciaDespesasService;
 
     public ResumoMensalDTO obterResumoMensal(Integer ano, Integer mes) {
-        List<ReceitaResponse> receitas = gerenciaReceitasService.listarReceitasPorMes(ano, mes);
+        BigDecimal valorTotalReceitas = gerenciaReceitasService.listarReceitasPorMes(ano, mes).stream()
+                .map(ReceitaResponse::getValor)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
         List<DespesaResponse> despesas = gerenciaDespesasService.listarDespesasPorMes(ano, mes);
 
-        BigDecimal totalReceitas = BigDecimal.valueOf(0.0);
-        for (ReceitaResponse receita: receitas){
-            totalReceitas = totalReceitas.add(receita.getValor());
-        }
+        BigDecimal valorTotalDespesas = despesas.stream().map(DespesaResponse::getValor).reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        BigDecimal valorTotalDespesas = BigDecimal.valueOf(0.0);
-        for (DespesaResponse despesa: despesas){
-            valorTotalDespesas = valorTotalDespesas.add(despesa.getValor());
-        }
+        BigDecimal valorTotal = valorTotalReceitas.subtract(valorTotalDespesas);
 
-        BigDecimal valorTotal = totalReceitas.subtract(valorTotalDespesas);
+        Map<String, BigDecimal> somaGastosPorCategoria = despesas.stream().collect(Collectors.groupingBy(DespesaResponse::getCategoria, Collectors.mapping(DespesaResponse::getValor, Collectors.reducing(BigDecimal.ZERO, BigDecimal::add))));
 
-        return new ResumoMensalDTO(totalReceitas, valorTotalDespesas, valorTotal);
+        return new ResumoMensalDTO(valorTotalReceitas, valorTotalDespesas, valorTotal, somaGastosPorCategoria);
     }
 }
