@@ -27,14 +27,14 @@ public class GerenciarDespesasController {
     }
 
     @GetMapping
-    public ResponseEntity<?> listarDespesas(@RequestParam(required = false) String descricao) {
+    public ResponseEntity<List<DespesaResponse>> listarDespesas(@RequestParam(required = false) String descricao) {
         List<DespesaResponse> despesas = gerenciaDespesasService.listarDespesas(descricao);
 
         return ResponseEntity.ok(despesas);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> detalheDespesa(@PathVariable String id) {
+    public ResponseEntity<DespesaResponse> detalheDespesa(@PathVariable String id) {
         DespesaResponse despesaResponse = gerenciaDespesasService.detalheDespesa(id);
 
         return ResponseEntity.ok(despesaResponse);
