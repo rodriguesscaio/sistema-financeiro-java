@@ -16,8 +16,8 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
-Run tests:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "Iniciando a execucao dos testes"
-      - run: mvn clean test
+  Run tests:
+      runs-on: ubuntu-latest
+      steps:
+        - run: echo "Iniciando a execucao dos testes"
+        - run: mvn clean test
